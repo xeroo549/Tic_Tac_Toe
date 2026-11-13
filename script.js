@@ -6,10 +6,9 @@ let game = {
 }
 let board = document.querySelector('#board')
 let info_text = document.querySelector('#info-text')
-
 for (let i = 0; i < 3; i++) {
     for (let j = 0; j < 3; j++) {
-        let cell = `<rect id="${i}-${j}" onclick="moveOn(${i}, ${j})" x="${i * 100}" y="${j * 100}" width="100" height="100" fill="white" stroke="black" stroke-width="5"/>`;
+        let cell = `<rect id="${i}-${j}" onclick="moveOn(${i}, ${j})" x="${i * 100}" y="${j * 100}" width="100" height="100" fill="#151922" stroke="#424B5A" stroke-width="5"/>`;
         board.insertAdjacentHTML('beforeend', cell);
     }
 }
@@ -48,7 +47,7 @@ function checkWinner() {
                 coords.push(cellPos);
             }
             console.log(coords)
-            let newLine = `<line x1="${coords[0].x + 50}" y1="${coords[0].y + 50}" x2="${coords[coords.length - 1].x + 50}" y2="${coords[coords.length - 1].y + 50}" stroke="${game.winner === 'X' ? '#0000ffa8' : '#ff1100bb'}" stroke-width="6" stroke-linecap="round"/>`;
+            let newLine = `<line x1="${coords[0].x + 50}" y1="${coords[0].y + 50}" x2="${coords[coords.length - 1].x + 50}" y2="${coords[coords.length - 1].y + 50}" stroke="#ffffffe0" stroke-width="4" stroke-linecap="round"/>`;
             board.insertAdjacentHTML('beforeend', newLine);
             break;
             
