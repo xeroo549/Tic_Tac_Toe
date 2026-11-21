@@ -9,20 +9,21 @@
     }
     let board = document.querySelector('#board')
     let info_text = document.querySelector('#info-text')
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
+    for (let j = 0; j < 3; j++) {
+        for (let i = 0; i < 3; i++) {
             let cell = `<rect id="${i}-${j}" onclick="moveOn(${i}, ${j})" x="${i * 100}" y="${j * 100}" width="100" height="100" fill="#151922" stroke="#424B5A" stroke-width="5"/>`;
-            board.insertAdjacentHTML('beforeend', cell);
+            board.insertAdjacentHTML('beforeend', cell);    
         }
     }
-    function calculateCellPos(index) {
-        const map = new Map();
-        for (let j = 0; j < 3; j++) {
-            for (let k = 0; k < 3; k++) {
-                map.set(j * 3 + k, { x: j, y: k });
-            }
+    function calculateLine(x1, y1, x2, y2) {
+        console.log(x1, y1, x2, y2);
+        if (x1 === x2) {//10 390
+            return `<line x1="${x1 * 100 + 50}" y1="${y1 * 100 + 10}" x2="${x2 * 100 + 50}" y2="${y2 * 100 + 90}" stroke="#ffffffe0" stroke-width="4" stroke-linecap="round"/>`;
+        } else if (y1 === y2) {
+            return `<line x1="${x1 * 100 + 10}" y1="${y1 * 100 + 50}" x2="${x2 * 100 + 90}" y2="${y2 * 100 + 50}" stroke="#ffffffe0" stroke-width="4" stroke-linecap="round"/>`;
+        } else if(x1 === 0 && y1 === 0 && x2 === 2 && y2 === 2) {
+            return `<line x1="${x1 * 100 + 10}" y1="${y1 * 100 + 10}" x2="${x2 * 100 + 90}" y2="${y2 * 100 + 90}" stroke="#ffffffe0" stroke-width="4" stroke-linecap="round"/>`;
         }
-        return map.get(index);
     }
     function checkWinner() {
         const winningCombinations = [
@@ -42,7 +43,8 @@
                 game.winner = game.board[a.x][a.y];
                 info_text.textContent = `Player ${game.winner} wins!`;
                 game.currentWinningCombination = combination;
-                let newLine = `<line x1="${a.x * 100 + 50}" y1="${a.y * 100 + 50}" x2="${c.x * 100 + 50}" y2="${c.y * 100 + 50}" stroke="#ffffffe0" stroke-width="4" stroke-linecap="round"/>`;
+                let newLine = calculateLine(a.x, a.y, c.x, c.y);
+                console.log(newLine);
                 board.insertAdjacentHTML('beforeend', newLine);
                 break;
 
@@ -56,9 +58,6 @@
 
     function moveOn(x, y) {
         if (game.winner !== '-') return;
-
-        let cell = document.getElementById(`${x}-${y}`)
-
         let newShape = '';
         if (game.board[x][y] !== 'O' && game.board[x][y] !== 'X' && game.currentPlayer === 'X') {
             newShape = `
